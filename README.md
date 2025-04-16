@@ -32,6 +32,12 @@ A secure Node.js middleware service that interfaces with [RestCountries.com](htt
    cd server-side-assignment/backend
 
 ## Test Case
+| Use Case      | Description | Test Text     |   Result (Pass/Fail)  |
+| :---        |    :----:   |         :---: |            ---:   |
+| Header      | Title       | Here's this   |               |
+| Paragraph   | Text        | And more      |               |
+| Paragraph   | Text        | And more      |               |
+| Paragraph   | Text        | And more      |               |
 
 
 ## Project Structure
