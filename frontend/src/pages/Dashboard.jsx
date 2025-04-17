@@ -26,9 +26,12 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { getCountries, filterCountry } from '../api';
 import { motion } from 'framer-motion';
+import Cookies from "js-cookie";
+import {useNavigate} from "react-router-dom";
 
 export default function Dashboard() {
-    const { user, logout } = useAuth();
+    // const { user, logout } = useAuth();
+
     const [countries, setCountries] = useState([]);
     const [filteredCountries, setFilteredCountries] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -36,6 +39,12 @@ export default function Dashboard() {
     const [error, setError] = useState(null);
     const [apiKey, setApiKey] = useState('');
     const [copied, setCopied] = useState(false);
+
+    const navigate = useNavigate();
+    const logout = () => {
+        Cookies.remove("token");
+        navigate("/login");
+    };
 
     useEffect(() => {
         const fetchCountries = async () => {
@@ -81,13 +90,13 @@ export default function Dashboard() {
         alert('API key refresh functionality to be implemented');
     };
 
-    if (!user) {
-        return (
-            <Container maxWidth="md" sx={{ mt: 4 }}>
-                <Alert severity="error">Please login to access the dashboard</Alert>
-            </Container>
-        );
-    }
+    // if (!user) {
+    //     return (
+    //         <Container maxWidth="md" sx={{ mt: 4 }}>
+    //             <Alert severity="error">Please login to access the dashboard</Alert>
+    //         </Container>
+    //     );
+    // }
 
     return (
         <Container maxWidth="xl" sx={{ py: 4 }}>

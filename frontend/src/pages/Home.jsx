@@ -1,87 +1,77 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import {
-    Box,
-    Button,
-    Container,
-    Typography,
-    Grid,
-    Paper,
-    useTheme
-} from '@mui/material';
-import {
-    Login as LoginIcon,
-    HowToReg as RegisterIcon,
-    Public as CountriesIcon,
-    AdminPanelSettings as AdminIcon
-} from '@mui/icons-material';
+// src/pages/HomePage.jsx
+import { Box, Button, Container, Grid, Typography, useTheme, Stack } from '@mui/material';
+import { Login, HowToReg, Public, ArrowForward } from '@mui/icons-material';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-export default function Home() {
+export default function HomePage() {
     const theme = useTheme();
     const navigate = useNavigate();
     const { user } = useAuth();
-    const [hoveredCard, setHoveredCard] = useState(null);
 
     const features = [
         {
-            id: 1,
-            title: 'Explore Countries',
-            description: 'Discover detailed information about every country in the world',
-            icon: <CountriesIcon fontSize="large" color="primary" />,
-            action: () => navigate('/dashboard'),
-            color: theme.palette.primary.main
+            title: "Explore Countries",
+            description: "Discover detailed information about every country in the world",
+            icon: <Public fontSize="large" />,
+            action: () => navigate('/dashboard')
         },
         {
-            id: 2,
-            title: 'Admin Dashboard',
-            description: 'Manage users and view API usage statistics',
-            icon: <AdminIcon fontSize="large" color="secondary" />,
+            title: "Admin Dashboard",
+            description: "Manage users and API keys (Admin only)",
+            icon: <Public fontSize="large" />,
             action: () => navigate('/admin'),
-            color: theme.palette.secondary.main,
             adminOnly: true
-        },
+        }
     ];
 
     return (
-        <Container maxWidth="lg" sx={{ py: 4 }}>
+        <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
             {/* Hero Section */}
-            <Paper
-                elevation={4}
-                sx={{
-                    p: 4,
-                    mb: 4,
-                    background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
-                    color: 'white',
-                    borderRadius: 2,
-                    textAlign: 'center'
-                }}
-            >
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                >
-                    <Typography variant="h3" component="h1" gutterBottom>
-                        Welcome to Country Explorer
-                    </Typography>
-                    <Typography variant="h6" component="p" sx={{ mb: 3 }}>
-                        Access comprehensive country data with secure API integration
-                    </Typography>
+            <Box sx={{
+                background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+                color: 'white',
+                py: { xs: 8, md: 12 },
+                px: 2,
+                textAlign: 'center'
+            }}>
+                <Container maxWidth="md">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                    >
+                        <Typography variant="h2" component="h1" gutterBottom sx={{
+                            fontSize: { xs: '2.5rem', sm: '3rem', md: '3.5rem' },
+                            fontWeight: 700
+                        }}>
+                            Welcome to Country Explorer
+                        </Typography>
+                        <Typography variant="h5" component="p" sx={{
+                            mb: 4,
+                            fontSize: { xs: '1.1rem', md: '1.25rem' }
+                        }}>
+                            Access comprehensive country data with secure API integration
+                        </Typography>
 
-                    <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
                         {!user ? (
-                            <>
+                            <Stack
+                                direction={{ xs: 'column', sm: 'row' }}
+                                spacing={2}
+                                justifyContent="center"
+                            >
                                 <Button
                                     variant="contained"
                                     color="secondary"
                                     size="large"
-                                    startIcon={<LoginIcon />}
+                                    startIcon={<Login />}
                                     onClick={() => navigate('/login')}
                                     sx={{
                                         px: 4,
-                                        borderRadius: '8px',
+                                        py: 1.5,
+                                        borderRadius: 2,
+                                        minWidth: { xs: '100%', sm: 'auto' }
                                     }}
                                 >
                                     Login
@@ -89,102 +79,122 @@ export default function Home() {
                                 <Button
                                     variant="outlined"
                                     size="large"
-                                    startIcon={<RegisterIcon />}
+                                    startIcon={<HowToReg />}
                                     onClick={() => navigate('/register')}
                                     sx={{
                                         px: 4,
-                                        borderRadius: '8px',
-                                        color: 'white',
+                                        py: 1.5,
+                                        borderRadius: 2,
                                         borderColor: 'white',
-                                        '&:hover': {
-                                            backgroundColor: 'rgba(255, 255, 255, 0.1)'
-                                        }
+                                        color: 'white',
+                                        '&:hover': { borderColor: 'white' },
+                                        minWidth: { xs: '100%', sm: 'auto' }
                                     }}
                                 >
                                     Register
                                 </Button>
-                            </>
+                            </Stack>
                         ) : (
                             <Button
                                 variant="contained"
                                 color="secondary"
                                 size="large"
-                                startIcon={<CountriesIcon />}
                                 onClick={() => navigate('/dashboard')}
-                                sx={{ px: 4 }}
+                                sx={{ px: 4, py: 1.5, borderRadius: 2 }}
                             >
                                 Go to Dashboard
                             </Button>
                         )}
-                    </Box>
-                </motion.div>
-            </Paper>
+                    </motion.div>
+                </Container>
+            </Box>
 
             {/* Features Section */}
-            <Typography variant="h4" component="h2" gutterBottom sx={{ textAlign: 'center', mb: 4 }}>
-                Key Features
-            </Typography>
+            <Container maxWidth="lg" sx={{ py: { xs: 6, md: 8 }, flex: 1 }}>
+                <Typography variant="h3" component="h2" align="center" gutterBottom sx={{
+                    mb: 6,
+                    fontSize: { xs: '1.8rem', md: '2.2rem' }
+                }}>
+                    Key Features
+                </Typography>
 
-            <Grid container spacing={4} justifyContent="center">
-                {features.map((feature) => {
-                    if (feature.adminOnly && (!user || user.role !== 'admin')) return null;
+                <Grid container spacing={4} justifyContent="center">
+                    {features.map((feature, index) => {
+                        if (feature.adminOnly && (!user || user.role !== 'admin')) return null;
 
-                    return (
-                        <Grid item xs={12} sm={6} md={4} key={feature.id}>
-                            <motion.div
-                                whileHover={{ scale: 1.03 }}
-                                whileTap={{ scale: 0.98 }}
-                            >
-                                <Paper
-                                    elevation={hoveredCard === feature.id ? 6 : 3}
-                                    onClick={feature.action}
-                                    onMouseEnter={() => setHoveredCard(feature.id)}
-                                    onMouseLeave={() => setHoveredCard(null)}
-                                    sx={{
-                                        p: 3,
-                                        height: '100%',
-                                        cursor: 'pointer',
-                                        borderLeft: `4px solid ${feature.color}`,
-                                        transition: 'all 0.3s ease',
-                                    }}
+                        return (
+                            <Grid item xs={12} sm={6} md={4} key={index}>
+                                <motion.div
+                                    whileHover={{ y: -5 }}
+                                    transition={{ type: "spring", stiffness: 300 }}
                                 >
-                                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 2 }}>
-                                        {feature.icon}
+                                    <Box
+                                        onClick={feature.action}
+                                        sx={{
+                                            height: '100%',
+                                            p: 4,
+                                            borderRadius: 2,
+                                            boxShadow: 3,
+                                            textAlign: 'center',
+                                            bgcolor: 'background.paper',
+                                            cursor: 'pointer'
+                                        }}
+                                    >
+                                        <Box sx={{ color: theme.palette.primary.main, mb: 2 }}>
+                                            {feature.icon}
+                                        </Box>
+                                        <Typography variant="h5" component="h3" gutterBottom sx={{
+                                            fontWeight: 600,
+                                            fontSize: { xs: '1.3rem', md: '1.5rem' }
+                                        }}>
+                                            {feature.title}
+                                        </Typography>
+                                        <Typography variant="body1" color="text.secondary">
+                                            {feature.description}
+                                        </Typography>
                                     </Box>
-                                    <Typography variant="h5" component="h3" gutterBottom align="center">
-                                        {feature.title}
-                                    </Typography>
-                                    <Typography variant="body1" color="text.secondary" align="center">
-                                        {feature.description}
-                                    </Typography>
-                                </Paper>
-                            </motion.div>
-                        </Grid>
-                    );
-                })}
-            </Grid>
+                                </motion.div>
+                            </Grid>
+                        );
+                    })}
+                </Grid>
+            </Container>
 
-            {/* Call to Action */}
+            {/* CTA Section */}
             {!user && (
-                <Paper elevation={3} sx={{ p: 4, mt: 6, textAlign: 'center' }}>
-                    <Typography variant="h5" component="h3" gutterBottom>
-                        Ready to explore?
-                    </Typography>
-                    <Typography variant="body1" sx={{ mb: 3 }}>
-                        Create an account to get your API key and start accessing country data
-                    </Typography>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        size="large"
-                        startIcon={<RegisterIcon />}
-                        onClick={() => navigate('/register')}
-                        sx={{ px: 5, borderRadius: '8px' }}
-                    >
-                        Get Started
-                    </Button>
-                </Paper>
+                <Box sx={{
+                    bgcolor: 'action.hover',
+                    py: { xs: 6, md: 8 },
+                    px: 2
+                }}>
+                    <Container maxWidth="md" sx={{ textAlign: 'center' }}>
+                        <Typography variant="h4" component="h3" gutterBottom sx={{
+                            mb: 3,
+                            fontSize: { xs: '1.5rem', md: '2rem' }
+                        }}>
+                            Ready to explore?
+                        </Typography>
+                        <Typography variant="body1" sx={{ mb: 4, fontSize: { xs: '1rem', md: '1.1rem' } }}>
+                            Create an account to get your API key and start accessing country data
+                        </Typography>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            size="large"
+                            endIcon={<ArrowForward />}
+                            onClick={() => navigate('/register')}
+                            sx={{
+                                px: 6,
+                                py: 1.5,
+                                borderRadius: 2,
+                                fontSize: '1.1rem'
+                            }}
+                        >
+                            Get Started
+                        </Button>
+                    </Container>
+                </Box>
             )}
-        </Container>
+        </Box>
     );
 }
