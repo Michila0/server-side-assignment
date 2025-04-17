@@ -128,3 +128,4 @@ cw1/
 ### Backend(.env)
 - `JWT_SECRET`: Secret key for JWT signing
 - `PORT`: Server port
+   Thank You!!!
