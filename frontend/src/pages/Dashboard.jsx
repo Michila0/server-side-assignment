@@ -28,6 +28,7 @@ import { getCountries, filterCountry } from '../api';
 import { motion } from 'framer-motion';
 import Cookies from "js-cookie";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
 
 export default function Dashboard() {
     // const { user, logout } = useAuth();
@@ -39,6 +40,8 @@ export default function Dashboard() {
     const [error, setError] = useState(null);
     const [apiKey, setApiKey] = useState('');
     const [copied, setCopied] = useState(false);
+    const [email, setEmail] = useState('');
+    const [apikey, setApikey] = useState('');
 
     const navigate = useNavigate();
     const logout = () => {
@@ -80,14 +83,21 @@ export default function Dashboard() {
     };
 
     const handleCopyKey = () => {
-        navigator.clipboard.writeText(apiKey);
+        navigator.clipboard.writeText(apikey);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
 
-    const handleRefreshKey = () => {
-        // Implement API key refresh logic here
-        alert('API key refresh functionality to be implemented');
+    const handleRefreshKey = async () => {
+        try {
+            const res = await axios.post('http://localhost:5000/api/genarateApiKey', { email },{
+                withCredentials: true,
+            });
+            setApikey(res.data.rawApiKey);
+            console.log(res.data);
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     // if (!user) {
@@ -121,40 +131,55 @@ export default function Dashboard() {
                     <KeyIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
                     Your API Key
                 </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                    <TextField
-                        value={apiKey || 'No API key available'}
-                        variant="outlined"
-                        size="small"
-                        fullWidth
-                        disabled
-                        sx={{ backgroundColor: 'white' }}
+                <Box sx={{display: 'flex', alignItems: 'center', gap: 2}}>
+
+                    <input
+                        type="email"
+                        className="w-full p-2 border border-gray-300 rounded mb-4"
+                        placeholder="Enter your email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
+                    <input
+                        type="text"
+                        className="w-full p-2 border border-gray-300 rounded mb-4"
+                        placeholder="Enter your APIKEY"
+                        value={apiKey}
+                        onChange={(e) => setApiKey(e.target.value)}
+                    />
+                    <h1>{apikey || 'No Key Available'}</h1>
+                    {/*<TextField*/}
+                    {/*    value={apiKey || 'No API key available'}*/}
+                    {/*    variant="outlined"*/}
+                    {/*    size="small"*/}
+                    {/*    fullWidth*/}
+                    {/*    sx={{backgroundColor: 'white'}}*/}
+                    {/*/>*/}
                     <Tooltip title={copied ? "Copied!" : "Copy to clipboard"}>
                         <IconButton
                             onClick={handleCopyKey}
                             color="primary"
-                            disabled={!apiKey}
+                            disabled={!apikey}
                         >
-                            <CopyIcon />
+                            <CopyIcon/>
                         </IconButton>
                     </Tooltip>
                     <Button
                         variant="outlined"
-                        startIcon={<RefreshIcon />}
+                        startIcon={<RefreshIcon/>}
                         onClick={handleRefreshKey}
                     >
                         Refresh Key
                     </Button>
                 </Box>
-                <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
+                <Typography variant="caption" color="text.secondary" sx={{mt: 1, display: 'block'}}>
                     Use this key to authenticate your API requests
                 </Typography>
             </Paper>
 
             {/* Search and Filter Section */}
-            <Box sx={{ mb: 4 }}>
-                <TextField
+            <Box sx={{mb: 4}}>
+            <TextField
                     fullWidth
                     variant="outlined"
                     placeholder="Search countries..."

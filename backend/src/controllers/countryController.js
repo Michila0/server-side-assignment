@@ -1,5 +1,7 @@
 const db = require('../dao/initDB');
 const bcrypt = require('bcryptjs');
+const { v4: uuidv4 } = require('uuid');
+
 
 //GET all countries
 exports.getCountryData = async (req, res) => {
@@ -55,3 +57,27 @@ exports.filterCountryByName = async (req, res) => {
         }
     });
 }
+
+
+exports.generateApi = (req, res) => {
+    const { email } = req.body;
+
+    if (!email) return res.status(400).json({ error: 'Email is required' });
+
+    const rawApiKey = uuidv4();
+    const hashedApiKey = bcrypt.hashSync(rawApiKey, 10);
+
+    const query = `UPDATE users SET apiKey = ? WHERE email = ?`;
+
+    db.run(query, [hashedApiKey, email], function (err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+
+        if (this.changes === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.json({ message: 'New API key generated successfully', rawApiKey });
+    });
+};

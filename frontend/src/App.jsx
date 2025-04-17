@@ -10,6 +10,7 @@ import {AuthProvider} from "./context/AuthContext.jsx";
 import ErrorBoundary from "./ErrorBoundar.jsx";
 import Login from './components/Auth/Login.jsx'
 import Register from './components/Auth/Register.jsx'
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 
 function App() {
@@ -25,7 +26,9 @@ function App() {
                             <Route path="/login" element={<Login />} />
                             <Route path="/register" element={<Register />} />
                             <Route path="/dashboard" element={<Dashboard />} />
-                            <Route path="/admin" element={<AdminPanel />} />
+                            <Route element={<ProtectedRoute roles={['admin']} />}>
+                                <Route path="/admin" element={<AdminPanel />} />
+                            </Route>
                         </Routes>
                     </AuthProvider>
                 </ErrorBoundary>
