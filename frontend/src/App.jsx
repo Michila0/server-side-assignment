@@ -6,18 +6,24 @@ import Home from './pages/Home.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import AdminPanel from './pages/AdminPanel.jsx';
 import Navbar from './components/Navbar.jsx';
+import {AuthProvider} from "./context/AuthContext.jsx";
+import ErrorBoundary from "./ErrorBoundar.jsx";
 
 function App() {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <Router>
-                <Navbar />
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/admin" element={<AdminPanel />} />
-                </Routes>
+                <ErrorBoundary>
+                    <AuthProvider>
+                        <Navbar />
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/dashboard" element={<Dashboard />} />
+                            <Route path="/admin" element={<AdminPanel />} />
+                        </Routes>
+                    </AuthProvider>
+                </ErrorBoundary>
             </Router>
         </ThemeProvider>
     );
