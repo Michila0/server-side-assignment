@@ -1,9 +1,9 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const routes = require("./routes/index");
+const routes = require("./routes");
 const bodyParser = require("body-parser");
-const db = require("./utils/initDB");
+const db = require("./dao/initDB");
 
 app.use(bodyParser.json());
 const cookieParser = require('cookie-parser');
