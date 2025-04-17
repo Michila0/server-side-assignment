@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 const routes = require("./routes/index");
 const bodyParser = require("body-parser");
-const db = require("./dao/database");
+const db = require("./utils/initDB");
 
 app.use(bodyParser.json());
 const cookieParser = require('cookie-parser');

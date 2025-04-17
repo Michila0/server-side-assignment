@@ -1,6 +1,6 @@
 // src/models/User.js
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('./database.sqlite');
+const db = new sqlite3.Database('./database.js.sqlite');
 const bcrypt = require('bcryptjs');
 
 class User {

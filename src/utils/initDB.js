@@ -1,23 +1,16 @@
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('./database.sqlite');
+const db = new sqlite3.Database('./database.js.sqlite');
 
 db.serialize(() => {
-    db.run(`
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT NOT NULL UNIQUE,
-            password_hash TEXT NOT NULL
-        );
-    `);
+    db.run(`CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT UNIQUE,
+    password TEXT,
+    role TEXT,
+    apiKey TEXT,
+    apiKeyUsage INTEGER DEFAULT 0,
+    lastUsed TEXT
+  )`);
+})
 
-    db.run(`
-        CREATE TABLE IF NOT EXISTS api_keys (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER NOT NULL,
-            api_key TEXT NOT NULL UNIQUE,
-            FOREIGN KEY (user_id) REFERENCES users(id)
-        );
-    `);
-});
-
-db.close();
+module.exports = db;
