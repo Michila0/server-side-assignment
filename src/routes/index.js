@@ -3,7 +3,7 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const role = require('../middleware/role');
 const authCtrl = require('../controllers/authController');
-const userCtrl = require('../controller/userController');
+const userCtrl = require('../controllers/useController');
 const countryCtrl = require('../controllers/countryController');
 
 // Auth Routes
