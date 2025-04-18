@@ -1,7 +1,7 @@
 import axios from 'axios';
-
+//axios instance config
 const api = axios.create({
-    baseURL: 'http://localhost:5000/api',
+    baseURL: 'http://localhost:5001/api',
     withCredentials: true,
 });
 
@@ -9,10 +9,10 @@ const api = axios.create({
 export const register = (data) => api.post('/register', data);
 export const login = (data) => api.post('/login', data);
 
-// Country endpoints
+// Country data endpoints
 export const getCountries = (apiKey) =>
     api.get('/countries', { headers: { 'x-api-key': apiKey } });
-
+//search the country
 export const filterCountry = (name, apiKey) =>
     api.post('/countries/filter', { name }, { headers: { 'x-api-key': apiKey } });
 

@@ -15,6 +15,7 @@ export default function CountryList({ apiKey }) {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
 
+    //data fetching
     useEffect(() => {
         const fetchCountries = async () => {
             try {
@@ -29,6 +30,7 @@ export default function CountryList({ apiKey }) {
         fetchCountries();
     }, [apiKey]);
 
+    //search functionality
     const handleSearch = async () => {
         if (!searchTerm) return;
         setLoading(true);

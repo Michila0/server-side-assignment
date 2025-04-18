@@ -4,26 +4,29 @@ import { Route } from 'react-router-dom';
 import Dashboard from '../pages/Dashboard';
 
 
-
+//component logic
 const ProtectedRoute = ({ roles = [] }) => {
     const { user, loading } = useAuth();
-
+    //loading state
     if (loading) {
         return <div>Loading...</div>; // Or a loading spinner
     }
     console.log('first'+user)
+    //authentication check
     if (!user) {
         return <Navigate to="/login" replace />;
     }
 
-    // Check if route requires specific role
+    // role-based authorization
     if (roles.length > 0 && !roles.includes(user.role)) {
         return <Navigate to="/" replace />;
     }
 
+    //render authorized content
     return <Outlet/>;
 };
 
+//usage example
 <Route
     path="/dashboard"
     element={

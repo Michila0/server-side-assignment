@@ -21,9 +21,7 @@ import {
     Refresh as RefreshIcon,
     ContentCopy as CopyIcon,
     Logout as LogoutIcon,
-    ArrowBack as BackIcon
 } from '@mui/icons-material';
-import { useAuth } from '../context/AuthContext';
 import { getCountries, filterCountry } from '../api';
 import { motion } from 'framer-motion';
 import Cookies from "js-cookie";
@@ -31,7 +29,6 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
 export default function Dashboard() {
-    // const { user, logout } = useAuth();
 
     const [countries, setCountries] = useState([]);
     const [filteredCountries, setFilteredCountries] = useState([]);
@@ -90,7 +87,7 @@ export default function Dashboard() {
 
     const handleRefreshKey = async () => {
         try {
-            const res = await axios.post('http://localhost:5000/api/genarateApiKey', { email },{
+            const res = await axios.post('http://localhost:5001/api/genarateApiKey', { email },{
                 withCredentials: true,
             });
             setApikey(res.data.rawApiKey);
@@ -100,17 +97,8 @@ export default function Dashboard() {
         }
     };
 
-    // if (!user) {
-    //     return (
-    //         <Container maxWidth="md" sx={{ mt: 4 }}>
-    //             <Alert severity="error">Please login to access the dashboard</Alert>
-    //         </Container>
-    //     );
-    // }
-
     return (
         <Container maxWidth="xl" sx={{ py: 4 }}>
-            {/* Header Section */}
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 4 }}>
                 <Typography variant="h4" component="h1">
                     <CountryIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
@@ -125,7 +113,6 @@ export default function Dashboard() {
                 </Box>
             </Box>
 
-            {/* API Key Section */}
             <Paper elevation={3} sx={{ p: 3, mb: 4, backgroundColor: '#f5f5f5' }}>
                 <Typography variant="h6" gutterBottom>
                     <KeyIcon sx={{ verticalAlign: 'middle', mr: 1 }} />

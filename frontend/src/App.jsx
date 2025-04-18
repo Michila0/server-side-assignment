@@ -15,13 +15,15 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 function App() {
     return (
+        /*theming system*/
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <Router>
-                <ErrorBoundary>
+                <ErrorBoundary> {/*Error handling*/}
                     <AuthProvider>
                         <Navbar />
                         <Routes>
+                            {/*routing structure*/}
                             <Route path="/" element={<Home />} />
                             <Route path="/login" element={<Login />} />
                             <Route path="/register" element={<Register />} />

@@ -58,7 +58,7 @@ npm install
 Create a `.env` file:
 ```env
 JWT_SECRET=your_jwt_secret_key
-PORT=5000
+PORT=5000 || 5001
 ```
 ### 3. Frontend Setup
 ```bash
